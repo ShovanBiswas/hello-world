@@ -1,0 +1,17 @@
+XYZ hosted old sitcoms, e.g. Seinfeld Show, Jersey Boys etc, which appeared on smart phones, tablets and other devices of the viewers. The devices were bombarded with commercials, during the shows. This interruption by coomercials, during the execution of a program, was leveraged in collecting data about viewer interests. The viewers were given the option to click off a commercial any time during a commercial. The assumption was, if the viewer was too intereted in the show, then he/she would probably click off the commercial right away. Even if the main sitcom was interesting, the viewer might still want to indulge in seeing the commercial, for a moment, and might click off at half, third or fourth quarter of the commercial. There is/was a industry wide server, called Freewheel Server, which recorded mouse-clicks, in the form of large ASCII textfiles.
+
+XYZ wanted to analyze the mouse-click files, to determine the interests of the viewers. If a viewer clicked off the adversisement, at the very start, then he must have been very interested in the program. Based on this analyses, XYZ would decide, how long to run a specific sitcom.
+
+They received daily datafeeds, from Freewheel and uploaded them into their MS SQLSERVER database, and ran queries against them. But, as days passed by, data volumes mounted. It was not possible to query even one month worth of data.
+
+At this point, XYZ resorted to Big Data solution--they wanted to evaluate Hadoop. So, I was hired to architect the project. Initially, they spun up 4 node Hadoop cluster, in AWS cloud. This is what I did:
+
+1) With Bash shell scripts, I loaded mouse-click files from S3 bucket to the Hadoop cluster. Sanitized the data, by removing headers.
+2) Then executed Hive queries to aggregate the data.
+3) Freewheel server is notorious for producing control characters. So, I wrote a bunch of C++ programs, to sanitize the data, of hidden control characters.
+4) It was an iterative process.
+5) Then extracted the summarized data from Hadoop, and uploaded in MS SQLSERVER.
+6) Then queried them, with regular SQL.
+7) As the data feeds increased, the number of nodes in the cluster were increased.
+
+This would not have been possible on MS SQLSERVER.
